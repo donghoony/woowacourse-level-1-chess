@@ -2,13 +2,19 @@ package chess.piece;
 
 import chess.position.UnitMovement;
 import chess.score.PieceScore;
+import java.util.Map;
 import java.util.Set;
 
 public class Rook extends Piece {
 
+    private static final Map<Color, Rook> INSTANCE = Map.of(
+            Color.WHITE, new Rook(Color.WHITE),
+            Color.BLACK, new Rook(Color.BLACK)
+    );
+
     private static final int MAX_MOVE_STEP = 7;
 
-    public Rook(Color color) {
+    private Rook(Color color) {
         super(color,
                 PieceScore.ROOK,
                 Set.of(
@@ -23,5 +29,9 @@ public class Rook extends Piece {
     @Override
     protected boolean isReachable(int step) {
         return step <= MAX_MOVE_STEP;
+    }
+
+    public static Rook getInstance(Color color) {
+        return INSTANCE.get(color);
     }
 }

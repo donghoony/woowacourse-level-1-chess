@@ -18,7 +18,7 @@ class SquareTest {
     void emptySourcePositionTest() {
         // given
         Square source = Square.empty();
-        Square destination = new Square(new Rook(Color.WHITE));
+        Square destination = new Square(Rook.getInstance(Color.WHITE));
         // when, then
         assertThatThrownBy(() -> source.movePieceTo(destination))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -29,8 +29,8 @@ class SquareTest {
     @DisplayName("도착 칸에 자신의 기물이 있다면 예외를 발생한다.")
     void allyPieceOnDestinationTest() {
         // given
-        Square source = new Square(new Rook(Color.WHITE));
-        Square destination = new Square(new Rook(Color.WHITE));
+        Square source = new Square(Rook.getInstance(Color.WHITE));
+        Square destination = new Square(Rook.getInstance(Color.WHITE));
         // when, then
         assertThatThrownBy(() -> source.movePieceTo(destination))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -41,7 +41,7 @@ class SquareTest {
     @DisplayName("기물을 이동한다.")
     void movePieceTest() {
         // given
-        Square source = new Square(new Rook(Color.WHITE));
+        Square source = new Square(Rook.getInstance(Color.WHITE));
         // when
         Square destination = source.movePieceTo(Square.empty());
         // then
@@ -52,8 +52,8 @@ class SquareTest {
     @DisplayName("적 기물이 있는 칸으로 이동한다.")
     void attackTest() {
         // given
-        Square source = new Square(new Rook(Color.WHITE));
-        Square destination = new Square(new Rook(Color.BLACK));
+        Square source = new Square(Rook.getInstance(Color.WHITE));
+        Square destination = new Square(Rook.getInstance(Color.BLACK));
         // when
         source.movePieceTo(destination);
         // then
@@ -64,7 +64,7 @@ class SquareTest {
     @DisplayName("기물의 존재 여부를 판단한다.")
     void hasPieceTest() {
         // given
-        Square square = new Square(new InitPawn(Color.WHITE));
+        Square square = new Square(InitPawn.getInstance(Color.WHITE));
         // when
         boolean hasPiece = square.hasPiece();
         boolean hasNoPiece = square.hasNoPiece();
@@ -79,7 +79,7 @@ class SquareTest {
     @DisplayName("킹 존재 여부를 판단한다.")
     void hasKingTest() {
         // given
-        Square square = new Square(new King(Color.WHITE));
+        Square square = new Square(King.getInstance(Color.WHITE));
         Square empty = Square.empty();
         // when
         boolean hasKing = square.hasKing();
@@ -95,7 +95,7 @@ class SquareTest {
     @DisplayName("폰 존재 여부를 판단한다.")
     void hasPawnTest() {
         // given
-        Square square = new Square(new InitPawn(Color.WHITE));
+        Square square = new Square(InitPawn.getInstance(Color.WHITE));
         Square empty = Square.empty();
         // when
         boolean hasPawn = square.hasPawn();
@@ -113,7 +113,7 @@ class SquareTest {
     @DisplayName("두 칸이 서로 같은 색을 가지고 있는지 확인한다.")
     void squareColorTest() {
         // given
-        Square whiteSquare = new Square(new InitPawn(Color.WHITE));
+        Square whiteSquare = new Square(InitPawn.getInstance(Color.WHITE));
         Square empty = Square.empty();
         // when
         boolean actual = whiteSquare.hasPieceColored(Color.WHITE);

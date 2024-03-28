@@ -15,7 +15,7 @@ class QueenTest {
     @DisplayName("퀸은 상하좌우 및 대각선 방향으로 이동할 수 있다.")
     void queenMoveTest(int fileDiffence, int rankDifference) {
         // given
-        Queen queen = new Queen(Color.WHITE);
+        Queen queen = Queen.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(fileDiffence, rankDifference);
         // when
         boolean actual = queen.isMovable(movement, 7);
@@ -27,7 +27,7 @@ class QueenTest {
     @DisplayName("퀸이 이동할 수 없는 경우를 판단한다.")
     void queenInvalidMoveTest() {
         // given
-        Queen queen = new Queen(Color.WHITE);
+        Queen queen = Queen.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(1, 2);
         // when
         boolean actual = queen.isMovable(movement, 1);

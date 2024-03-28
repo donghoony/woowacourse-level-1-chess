@@ -25,7 +25,7 @@ class BoardTest {
     void moveTest() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.of(File.A, Rank.ONE), new Rook(Color.WHITE));
+        pieces.put(Position.of(File.A, Rank.ONE), Rook.getInstance(Color.WHITE));
         Board board = new Board(pieces);
 
         Position source = Position.of(File.A, Rank.ONE);
@@ -47,8 +47,8 @@ class BoardTest {
         Position source = Position.of(File.A, Rank.ONE);
         Position destination = Position.of(File.A, Rank.TWO);
 
-        pieces.put(source, new Rook(Color.WHITE));
-        pieces.put(destination, new Rook(Color.BLACK));
+        pieces.put(source, Rook.getInstance(Color.WHITE));
+        pieces.put(destination, Rook.getInstance(Color.BLACK));
         Board board = new Board(pieces);
         // when
         board.move(source, destination, Color.WHITE);
@@ -64,10 +64,10 @@ class BoardTest {
     void boardScoreTest() {
         // given
         Map<Position, Piece> pieces = Map.of(
-                Position.of(File.A, Rank.ONE), new Rook(Color.WHITE),
-                Position.of(File.A, Rank.TWO), new Rook(Color.WHITE),
-                Position.of(File.B, Rank.TWO), new MovedPawn(Color.BLACK),
-                Position.of(File.B, Rank.THREE), new InitPawn(Color.BLACK)
+                Position.of(File.A, Rank.ONE), Rook.getInstance(Color.WHITE),
+                Position.of(File.A, Rank.TWO), Rook.getInstance(Color.WHITE),
+                Position.of(File.B, Rank.TWO), MovedPawn.getInstance(Color.BLACK),
+                Position.of(File.B, Rank.THREE), InitPawn.getInstance(Color.BLACK)
         );
         Board board = new Board(pieces);
         // when
@@ -87,8 +87,8 @@ class BoardTest {
         Position source = Position.of(File.A, Rank.ONE);
         Position destination = Position.of(File.B, Rank.TWO);
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(source, new King(Color.WHITE));
-        pieces.put(destination, new King(Color.BLACK));
+        pieces.put(source, King.getInstance(Color.WHITE));
+        pieces.put(destination, King.getInstance(Color.BLACK));
 
         Board board = new Board(pieces);
         // when

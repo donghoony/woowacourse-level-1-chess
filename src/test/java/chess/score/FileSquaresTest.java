@@ -18,14 +18,14 @@ import org.junit.jupiter.api.Test;
 class FileSquaresTest {
 
     private static final List<Square> squares = List.of(
-            new Square(new King(Color.WHITE)),
-            new Square(new Queen(Color.WHITE)),
-            new Square(new Knight(Color.WHITE)),
-            new Square(new MovedPawn(Color.WHITE)),
-            new Square(new Rook(Color.BLACK)),
-            new Square(new Bishop(Color.BLACK)),
-            new Square(new MovedPawn(Color.BLACK)),
-            new Square(new MovedPawn(Color.BLACK))
+            new Square(King.getInstance(Color.WHITE)),
+            new Square(Queen.getInstance(Color.WHITE)),
+            new Square(Knight.getInstance(Color.WHITE)),
+            new Square(MovedPawn.getInstance(Color.WHITE)),
+            new Square(Rook.getInstance(Color.BLACK)),
+            new Square(Bishop.getInstance(Color.BLACK)),
+            new Square(MovedPawn.getInstance(Color.BLACK)),
+            new Square(MovedPawn.getInstance(Color.BLACK))
     );
 
     @Test
@@ -48,9 +48,9 @@ class FileSquaresTest {
     void manipulatePawnScoreTest() {
         // given
         List<Square> pawns = List.of(
-                new Square(new MovedPawn(Color.BLACK)),
-                new Square(new MovedPawn(Color.BLACK)),
-                new Square(new MovedPawn(Color.BLACK))
+                new Square(MovedPawn.getInstance(Color.BLACK)),
+                new Square(MovedPawn.getInstance(Color.BLACK)),
+                new Square(MovedPawn.getInstance(Color.BLACK))
         );
         FileSquares fileSquares = new FileSquares(pawns);
         // when
@@ -64,7 +64,7 @@ class FileSquaresTest {
     void calculateSinglePawn() {
         // given
         List<Square> pawns = List.of(
-                new Square(new MovedPawn(Color.BLACK))
+                new Square(MovedPawn.getInstance(Color.BLACK))
         );
         FileSquares fileSquares = new FileSquares(pawns);
         // when

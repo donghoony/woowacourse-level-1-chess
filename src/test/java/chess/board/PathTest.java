@@ -30,9 +30,9 @@ class PathTest {
     void hasPieceOnRouteTest() {
         // given
         List<Square> squares = List.of(
-                new Square(new Bishop(Color.WHITE)),
-                new Square(new MovedPawn(Color.BLACK)),
-                new Square(new Bishop(Color.BLACK))
+                new Square(Bishop.getInstance(Color.WHITE)),
+                new Square(MovedPawn.getInstance(Color.BLACK)),
+                new Square(Bishop.getInstance(Color.BLACK))
         );
         UnitMovement movement = UnitMovement.differencesOf(1, 1);
         Path path = new Path(squares, movement);
@@ -47,7 +47,7 @@ class PathTest {
     void opponentPieceTraverseTest() {
         // given
         List<Square> squares = List.of(
-                new Square(new Bishop(Color.WHITE)),
+                new Square(Bishop.getInstance(Color.WHITE)),
                 Square.empty()
         );
         UnitMovement movement = UnitMovement.differencesOf(1, 1);
@@ -62,7 +62,7 @@ class PathTest {
     @DisplayName("출발지에서 도착지로 이동한다.")
     void traverseTest() {
         // given
-        Square source = new Square(new Bishop(Color.WHITE));
+        Square source = new Square(Bishop.getInstance(Color.WHITE));
         List<Square> squares = List.of(
                 source,
                 Square.empty(),
@@ -81,7 +81,7 @@ class PathTest {
     void illegalRouteTraversalTest() {
         // given
         List<Square> squares = List.of(
-                new Square(new Bishop(Color.WHITE)),
+                new Square(Bishop.getInstance(Color.WHITE)),
                 Square.empty(),
                 Square.empty()
         );
@@ -98,8 +98,8 @@ class PathTest {
     void illegalRouteAttackTest() {
         // given
         List<Square> squares = List.of(
-                new Square(new MovedPawn(Color.WHITE)),
-                new Square(new MovedPawn(Color.BLACK))
+                new Square(MovedPawn.getInstance(Color.WHITE)),
+                new Square(MovedPawn.getInstance(Color.BLACK))
         );
         UnitMovement movement = UnitMovement.differencesOf(0, 1);
         Path path = new Path(squares, movement);

@@ -13,8 +13,8 @@ class MovedPawnTest {
     @DisplayName("폰은 최대 한 칸만 전진할 수 있다.")
     void pawnMoveTest() {
         // given
-        MovedPawn whitePawn = new MovedPawn(Color.WHITE);
-        MovedPawn blackPawn = new MovedPawn(Color.BLACK);
+        MovedPawn whitePawn = MovedPawn.getInstance(Color.WHITE);
+        MovedPawn blackPawn = MovedPawn.getInstance(Color.BLACK);
         UnitMovement whiteDirection = UnitMovement.differencesOf(0, 1);
         UnitMovement blackDirection = UnitMovement.differencesOf(0, -1);
         // when
@@ -31,8 +31,8 @@ class MovedPawnTest {
     @DisplayName("움직인 폰은 두 칸 이상 전진할 수 없다.")
     void pawnMaxUnitTest() {
         // given
-        MovedPawn whitePawn = new MovedPawn(Color.WHITE);
-        MovedPawn blackPawn = new MovedPawn(Color.BLACK);
+        MovedPawn whitePawn = MovedPawn.getInstance(Color.WHITE);
+        MovedPawn blackPawn = MovedPawn.getInstance(Color.BLACK);
         UnitMovement whiteDirection = UnitMovement.differencesOf(0, 1);
         UnitMovement blackDirection = UnitMovement.differencesOf(0, -1);
         // when

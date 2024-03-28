@@ -16,7 +16,7 @@ class PawnTest {
     @DisplayName("백색 폰은 대각선 전진 방향으로 공격할 수 있다.")
     void whitePawnAttackTest(int fileDifference, int rankDifference) {
         // given
-        MovedPawn whitePawn = new MovedPawn(Color.WHITE);
+        MovedPawn whitePawn = MovedPawn.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = whitePawn.canAttack(movement, 1);
@@ -29,7 +29,7 @@ class PawnTest {
     @DisplayName("흑색 폰은 대각선 전진 방향으로 공격할 수 있다.")
     void blackPawnAttackTest(int fileDifference, int rankDifference) {
         // given
-        MovedPawn blackPawn = new MovedPawn(Color.BLACK);
+        MovedPawn blackPawn = MovedPawn.getInstance(Color.BLACK);
         UnitMovement movement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = blackPawn.canAttack(movement, 1);
@@ -41,7 +41,7 @@ class PawnTest {
     @DisplayName("폰 여부를 올바르게 판단한다.")
     void isPawnTest() {
         // given
-        MovedPawn movedPawn = new MovedPawn(Color.WHITE);
+        MovedPawn movedPawn = MovedPawn.getInstance(Color.WHITE);
         // when, then
         assertAll(
                 () -> assertThat(movedPawn.isPawn()).isTrue(),
@@ -53,7 +53,7 @@ class PawnTest {
     @DisplayName("폰이 아닌 경우의 폰 여부를 올바르게 판단한다.")
     void isPawnOnOtherPieceTest() {
         // given
-        Bishop bishop = new Bishop(Color.WHITE);
+        Bishop bishop = Bishop.getInstance(Color.WHITE);
         // when, then
         assertAll(
                 () -> assertThat(bishop.isPawn()).isFalse(),

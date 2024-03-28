@@ -13,8 +13,8 @@ class InitPawnTest {
     @DisplayName("최초 폰은 최대 2만큼 전진할 수 있다.")
     void initPawnMoveTest() {
         // given
-        InitPawn whitePawn = new InitPawn(Color.WHITE);
-        InitPawn blackPawn = new InitPawn(Color.BLACK);
+        InitPawn whitePawn = InitPawn.getInstance(Color.WHITE);
+        InitPawn blackPawn = InitPawn.getInstance(Color.BLACK);
         UnitMovement whiteDirection = UnitMovement.differencesOf(0, 1);
         UnitMovement blackDirection = UnitMovement.differencesOf(0, -1);
         // when
@@ -31,7 +31,7 @@ class InitPawnTest {
     @DisplayName("InitPawn이 이동하면 MovedPawn으로 교체한다.")
     void replaceInitPawnTest() {
         // given
-        InitPawn initPawn = new InitPawn(Color.WHITE);
+        InitPawn initPawn = InitPawn.getInstance(Color.WHITE);
         // when
         Piece movedPawn = initPawn.move();
         // then

@@ -14,7 +14,7 @@ class BishopTest {
     @DisplayName("비숍은 대각선 방향으로 이동할 수 있다")
     void bishopMoveTest(int fileDifference, int rankDifference) {
         // given
-        Bishop bishop = new Bishop(Color.WHITE);
+        Bishop bishop = Bishop.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = bishop.isMovable(movement, 7);
@@ -27,7 +27,7 @@ class BishopTest {
     @DisplayName("비숍이 움직일 수 없는 경우를 판단한다.")
     void bishopInvalidMoveTest(int fileDifference, int rankDifference) {
         // given
-        Bishop bishop = new Bishop(Color.WHITE);
+        Bishop bishop = Bishop.getInstance(Color.WHITE);
         UnitMovement unitMovement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = bishop.isMovable(unitMovement, 1);
