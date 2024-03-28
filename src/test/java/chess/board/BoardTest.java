@@ -31,11 +31,8 @@ class BoardTest {
         Position source = Position.of(File.A, Rank.ONE);
         Position destination = Position.of(File.A, Rank.TWO);
         // when
-        board.move(source, destination, Color.WHITE);
+        Square destinationSquare = board.move(source, destination, Color.WHITE);
         // then
-        Map<Position, Square> squares = board.pieces();
-        Square destinationSquare = squares.get(destination);
-
         assertThat(destinationSquare.getPiece()).isInstanceOf(Rook.class);
     }
 
@@ -51,11 +48,8 @@ class BoardTest {
         pieces.put(destination, Rook.getInstance(Color.BLACK));
         Board board = new Board(pieces);
         // when
-        board.move(source, destination, Color.WHITE);
+        Square destinationSquare = board.move(source, destination, Color.WHITE);
         // then
-        Map<Position, Square> squares = board.pieces();
-        Square destinationSquare = squares.get(destination);
-
         assertThat(destinationSquare.hasPieceColored(Color.WHITE)).isTrue();
     }
 
@@ -84,15 +78,11 @@ class BoardTest {
     @DisplayName("킹이 잡힌 여부를 올바르게 반환한다.")
     void kingCapturedTest() {
         // given
-        Position source = Position.of(File.A, Rank.ONE);
-        Position destination = Position.of(File.B, Rank.TWO);
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(source, King.getInstance(Color.WHITE));
-        pieces.put(destination, King.getInstance(Color.BLACK));
-
+        Map<Position, Piece> pieces = Map.of(
+                Position.of(File.A, Rank.ONE), King.getInstance(Color.WHITE)
+        );
         Board board = new Board(pieces);
         // when
-        board.move(source, destination, Color.WHITE);
         boolean actual = board.isKingCaptured(Color.BLACK);
         // then
         assertThat(actual).isTrue();

@@ -28,11 +28,12 @@ public class Board {
                 );
     }
 
-    public void move(Position source, Position destination, Color currentTurnColor) {
+    public Square move(Position source, Position destination, Color currentTurnColor) {
         Path path = createPathBetween(source, destination);
         Square destinationSquare = path.traverse(currentTurnColor);
         squares.remove(source);
         squares.put(destination, destinationSquare);
+        return destinationSquare;
     }
 
     private Path createPathBetween(Position source, Position destination) {
