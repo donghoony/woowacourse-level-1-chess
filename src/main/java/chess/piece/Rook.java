@@ -1,7 +1,6 @@
 package chess.piece;
 
 import chess.position.UnitMovement;
-import chess.score.PieceScore;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ public class Rook extends Piece {
 
     private Rook(Color color) {
         super(color,
-                PieceScore.ROOK,
                 Set.of(
                         UnitMovement.differencesOf(1, 0),
                         UnitMovement.differencesOf(0, 1),

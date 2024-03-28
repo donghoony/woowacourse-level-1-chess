@@ -15,7 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class FileSquaresTest {
+class FileScoreTest {
 
     private static final List<Square> squares = List.of(
             new Square(King.getInstance(Color.WHITE)),
@@ -32,7 +32,7 @@ class FileSquaresTest {
     @DisplayName("주어진 기물들의 점수를 색에 따라 올바르게 계산한다.")
     void calculatePieceScoreByColorTest() {
         // given
-        FileSquares fileSquares = new FileSquares(squares);
+        FileScore fileSquares = new FileScore(squares);
         // when
         Score whiteScore = fileSquares.calculateScore(Color.WHITE);
         Score blackScore = fileSquares.calculateScore(Color.BLACK);
@@ -52,7 +52,7 @@ class FileSquaresTest {
                 new Square(MovedPawn.getInstance(Color.BLACK)),
                 new Square(MovedPawn.getInstance(Color.BLACK))
         );
-        FileSquares fileSquares = new FileSquares(pawns);
+        FileScore fileSquares = new FileScore(pawns);
         // when
         Score actual = fileSquares.calculateScore(Color.BLACK);
         // then
@@ -61,12 +61,12 @@ class FileSquaresTest {
 
     @Test
     @DisplayName("폰이 한 개만 있는 경우 올바르게 점수를 계산한다.")
-    void calculateSinglePawn() {
+    void calculateSinglePawnTest() {
         // given
         List<Square> pawns = List.of(
                 new Square(MovedPawn.getInstance(Color.BLACK))
         );
-        FileSquares fileSquares = new FileSquares(pawns);
+        FileScore fileSquares = new FileScore(pawns);
         // when
         Score actual = fileSquares.calculateScore(Color.BLACK);
         // then

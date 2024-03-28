@@ -1,7 +1,6 @@
 package chess.piece;
 
 import chess.position.UnitMovement;
-import chess.score.PieceScore;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ public class Queen extends Piece {
 
     private Queen(Color color) {
         super(color,
-                PieceScore.QUEEN,
                 Set.of(
                         UnitMovement.differencesOf(1, 1),
                         UnitMovement.differencesOf(1, 0),

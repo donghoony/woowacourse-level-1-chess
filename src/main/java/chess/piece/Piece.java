@@ -1,19 +1,15 @@
 package chess.piece;
 
 import chess.position.UnitMovement;
-import chess.score.PieceScore;
-import chess.score.Score;
 import java.util.Set;
 
 public abstract class Piece {
 
     private final Color color;
-    private final PieceScore pieceScore;
     private final Set<UnitMovement> unitMovements;
 
-    protected Piece(Color color, PieceScore pieceScore, Set<UnitMovement> unitMovements) {
+    protected Piece(Color color, Set<UnitMovement> unitMovements) {
         this.color = color;
-        this.pieceScore = pieceScore;
         this.unitMovements = unitMovements;
     }
 
@@ -58,10 +54,6 @@ public abstract class Piece {
 
     public boolean isKing() {
         return false;
-    }
-
-    public Score getScore() {
-        return pieceScore.asScore();
     }
 
     public Color getColor() {

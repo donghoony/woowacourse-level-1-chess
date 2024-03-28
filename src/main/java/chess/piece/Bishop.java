@@ -1,7 +1,6 @@
 package chess.piece;
 
 import chess.position.UnitMovement;
-import chess.score.PieceScore;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ public class Bishop extends Piece {
 
     private Bishop(Color color) {
         super(color,
-                PieceScore.BISHOP,
                 Set.of(
                         UnitMovement.differencesOf(1, 1),
                         UnitMovement.differencesOf(1, -1),

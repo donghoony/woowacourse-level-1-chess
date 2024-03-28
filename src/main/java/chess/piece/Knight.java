@@ -1,7 +1,6 @@
 package chess.piece;
 
 import chess.position.UnitMovement;
-import chess.score.PieceScore;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ public class Knight extends Piece {
 
     private Knight(Color color) {
         super(color,
-                PieceScore.KNIGHT,
                 Set.of(
                         UnitMovement.differencesOf(2, 1),
                         UnitMovement.differencesOf(2, -1),
