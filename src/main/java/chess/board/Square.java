@@ -3,7 +3,6 @@ package chess.board;
 import chess.piece.Color;
 import chess.piece.Piece;
 import chess.position.UnitMovement;
-import chess.score.Score;
 
 public class Square {
 
@@ -79,13 +78,6 @@ public class Square {
 
     public boolean hasNoPawn() {
         return hasNoPiece() || !piece.isPawn();
-    }
-
-    public Score getScore() {
-        if (hasNoPiece()) {
-            return Score.ZERO;
-        }
-        return piece.getScore();
     }
 
     public Piece getPiece() {

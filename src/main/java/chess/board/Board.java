@@ -5,7 +5,7 @@ import chess.piece.Piece;
 import chess.position.File;
 import chess.position.Position;
 import chess.position.UnitMovement;
-import chess.score.FileSquares;
+import chess.score.FileScore;
 import chess.score.Score;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,12 +57,12 @@ public class Board {
                 .reduce(Score.ZERO, Score::add);
     }
 
-    private FileSquares getFilePieces(File file) {
+    private FileScore getFilePieces(File file) {
         List<Square> filePieces = squares.keySet().stream()
                 .filter(position -> position.hasFileOf(file))
                 .map(squares::get)
                 .toList();
-        return new FileSquares(filePieces);
+        return new FileScore(filePieces);
     }
 
     public boolean isKingCaptured(Color color) {
