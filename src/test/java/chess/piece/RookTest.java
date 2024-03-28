@@ -14,7 +14,7 @@ class RookTest {
     @DisplayName("룩은 상하좌우 방향으로 이동할 수 있다.")
     void rookMoveTest(int fileDifference, int rankDifference) {
         // given
-        Rook rook = new Rook(Color.WHITE);
+        Rook rook = Rook.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = rook.isMovable(movement, 7);
@@ -27,7 +27,7 @@ class RookTest {
     @DisplayName("룩이 이동할 수 없는 경우를 판단한다.")
     void rookInvalidMoveTest(int fileDifference, int rankDifference) {
         // given
-        Rook rook = new Rook(Color.WHITE);
+        Rook rook = Rook.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = rook.isMovable(movement, 1);

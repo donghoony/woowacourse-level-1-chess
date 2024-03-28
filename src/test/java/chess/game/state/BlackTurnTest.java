@@ -38,8 +38,8 @@ class BlackTurnTest {
         Map<Position, Piece> pieces = new HashMap<>();
         Position source = Position.of(File.A, Rank.ONE);
         Position destination = Position.of(File.B, Rank.TWO);
-        pieces.put(source, new King(Color.BLACK));
-        pieces.put(destination, new King(Color.WHITE));
+        pieces.put(source, King.getInstance(Color.BLACK));
+        pieces.put(destination, King.getInstance(Color.WHITE));
         Board board = new Board(pieces);
 
         BlackTurn blackTurn = new BlackTurn();

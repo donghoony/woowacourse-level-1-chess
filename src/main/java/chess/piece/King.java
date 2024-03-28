@@ -2,13 +2,19 @@ package chess.piece;
 
 import chess.position.UnitMovement;
 import chess.score.PieceScore;
+import java.util.Map;
 import java.util.Set;
 
 public class King extends Piece {
 
+    private static final Map<Color, King> INSTANCE = Map.of(
+            Color.WHITE, new King(Color.WHITE),
+            Color.BLACK, new King(Color.BLACK)
+    );
+
     private static final int MAX_UNIT_MOVE = 1;
 
-    public King(Color color) {
+    private King(Color color) {
         super(color,
                 PieceScore.KING,
                 Set.of(
@@ -32,5 +38,9 @@ public class King extends Piece {
     @Override
     public boolean isKing() {
         return true;
+    }
+
+    public static King getInstance(Color color) {
+        return INSTANCE.get(color);
     }
 }

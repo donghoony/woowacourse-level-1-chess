@@ -14,7 +14,7 @@ class KnightTest {
     @DisplayName("나이트는 두 칸 전진한 뒤, 전진한 방향의 90도 좌/우 한 칸으로 이동할 수 있다")
     void knightMoveTest(int fileDifference, int rankDifference) {
         // given
-        Knight knight = new Knight(Color.WHITE);
+        Knight knight = Knight.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = knight.isMovable(movement, 1);
@@ -27,7 +27,7 @@ class KnightTest {
     @DisplayName("나이트가 이동할 수 없는 경우를 판단한다.")
     void knightInvalidMoveTest(int fileDifference, int rankDifference) {
         // given
-        Knight knight = new Knight(Color.WHITE);
+        Knight knight = Knight.getInstance(Color.WHITE);
         UnitMovement unitMovement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = knight.isMovable(unitMovement, 1);

@@ -15,7 +15,7 @@ class KingTest {
     @DisplayName("킹은 상하좌우 및 대각선 방향으로 한 칸 이동할 수 있다.")
     void kingMoveTest(int fileDifference, int rankDifference) {
         // given
-        King king = new King(Color.WHITE);
+        King king = King.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(fileDifference, rankDifference);
         // when
         boolean actual = king.isMovable(movement, 1);
@@ -27,7 +27,7 @@ class KingTest {
     @DisplayName("킹은 한 번에 여러 칸 이동할 수 없다.")
     void kingMaxUnitTest() {
         // given
-        King king = new King(Color.WHITE);
+        King king = King.getInstance(Color.WHITE);
         UnitMovement movement = UnitMovement.differencesOf(1, 1);
         // when
         boolean actual = king.isMovable(movement, 2);

@@ -19,7 +19,7 @@ class PieceScoreTest {
     @DisplayName("비숍의 점수를 올바르게 계산한다.")
     void bishopScoreTest() {
         // given
-        Bishop bishop = new Bishop(Color.WHITE);
+        Bishop bishop = Bishop.getInstance(Color.WHITE);
         // when
         Score score = bishop.getScore();
         // then
@@ -30,7 +30,7 @@ class PieceScoreTest {
     @DisplayName("폰의 점수를 올바르게 계산한다.")
     void pawnScoreTest() {
         // given
-        Pawn pawn = new MovedPawn(Color.WHITE);
+        Pawn pawn = MovedPawn.getInstance(Color.WHITE);
         // when
         Score score = pawn.getScore();
         // then
@@ -41,7 +41,7 @@ class PieceScoreTest {
     @DisplayName("나이트의 점수를 올바르게 계산한다.")
     void knightScoreTest() {
         // given
-        Knight knight = new Knight(Color.WHITE);
+        Knight knight = Knight.getInstance(Color.WHITE);
         // when
         Score score = knight.getScore();
         // then
@@ -52,7 +52,7 @@ class PieceScoreTest {
     @DisplayName("퀸의 점수를 올바르게 계산한다.")
     void queenScoreTest() {
         // given
-        Queen queen = new Queen(Color.WHITE);
+        Queen queen = Queen.getInstance(Color.WHITE);
         // when
         Score score = queen.getScore();
         // then
@@ -63,7 +63,7 @@ class PieceScoreTest {
     @DisplayName("킹의 점수를 올바르게 계산한다.")
     void kingScoreTest() {
         // given
-        King king = new King(Color.WHITE);
+        King king = King.getInstance(Color.WHITE);
         // when
         Score score = king.getScore();
         // then
@@ -74,7 +74,7 @@ class PieceScoreTest {
     @DisplayName("룩의 점수를 올바르게 계산한다.")
     void rookScoreTest() {
         // given
-        Rook rook = new Rook(Color.WHITE);
+        Rook rook = Rook.getInstance(Color.WHITE);
         // when
         Score score = rook.getScore();
         // then

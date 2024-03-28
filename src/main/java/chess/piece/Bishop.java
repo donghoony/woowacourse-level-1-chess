@@ -2,13 +2,19 @@ package chess.piece;
 
 import chess.position.UnitMovement;
 import chess.score.PieceScore;
+import java.util.Map;
 import java.util.Set;
 
 public class Bishop extends Piece {
 
+    private static final Map<Color, Bishop> INSTANCE = Map.of(
+            Color.WHITE, new Bishop(Color.WHITE),
+            Color.BLACK, new Bishop(Color.BLACK)
+    );
+
     private static final int MAX_MOVE_STEP = 7;
 
-    public Bishop(Color color) {
+    private Bishop(Color color) {
         super(color,
                 PieceScore.BISHOP,
                 Set.of(
@@ -23,5 +29,9 @@ public class Bishop extends Piece {
     @Override
     protected boolean isReachable(int step) {
         return step <= MAX_MOVE_STEP;
+    }
+
+    public static Bishop getInstance(Color color) {
+        return INSTANCE.get(color);
     }
 }
