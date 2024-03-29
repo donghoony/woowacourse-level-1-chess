@@ -57,7 +57,7 @@ class TerminatedStateTest {
         void validatePlaying() {
             TerminatedState state = new TerminatedState();
             assertThatThrownBy(state::validatePlaying)
-                    .isInstanceOf(UnsupportedOperationException.class)
+                    .isInstanceOf(IllegalStateException.class)
                     .hasMessage("게임이 진행되고 있지 않습니다.");
         }
     }

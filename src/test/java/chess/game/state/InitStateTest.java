@@ -65,7 +65,7 @@ class InitStateTest {
     void validatePlayingTest() {
         InitState initState = new InitState();
         assertThatThrownBy(initState::validatePlaying)
-                .isInstanceOf(UnsupportedOperationException.class)
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessage("게임이 진행되고 있지 않습니다.");
     }
 }

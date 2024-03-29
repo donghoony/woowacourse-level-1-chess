@@ -10,13 +10,16 @@ import java.util.Map;
 
 public class BoardDisplayConverter {
 
-    public List<RankDisplay> convert(Map<Position, Square> pieces) {
+    private BoardDisplayConverter() {
+    }
+
+    public static List<RankDisplay> convert(Map<Position, Square> pieces) {
         return Arrays.stream(Rank.values())
                 .map(rank -> convertNotationRankOf(rank, pieces))
                 .toList();
     }
 
-    private RankDisplay convertNotationRankOf(Rank rank, Map<Position, Square> pieces) {
+    private static RankDisplay convertNotationRankOf(Rank rank, Map<Position, Square> pieces) {
         List<PieceDisplay> pieceDisplays = Arrays.stream(File.values())
                 .map(file -> Position.of(file, rank))
                 .map(position -> pieces.getOrDefault(position, Square.empty()))
