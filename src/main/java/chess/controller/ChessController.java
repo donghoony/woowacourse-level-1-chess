@@ -82,6 +82,9 @@ public class ChessController {
     private void printBoard() {
         Map<Position, Square> squares = chessGame.getSquares();
         List<RankDisplay> rankDisplays = BoardDisplayConverter.convert(squares);
+    private void printBoard(ChessGame chessGame) {
+        Map<Position, Piece> pieces = chessGame.getPieces();
+        List<RankDisplay> rankDisplays = BoardDisplayConverter.convert(pieces);
         outputView.printBoard(rankDisplays);
     }
 

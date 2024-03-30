@@ -4,10 +4,12 @@ import chess.domain.board.Board;
 import chess.domain.board.BoardGenerator;
 import chess.domain.board.Square;
 import chess.domain.piece.Color;
+import chess.domain.piece.Piece;
 import chess.domain.position.Position;
 import chess.domain.score.Score;
 import chess.game.state.GameState;
 import chess.game.state.InitState;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ChessGame {
@@ -46,7 +48,14 @@ public class ChessGame {
         return gameState.isPlaying();
     }
 
-    public Map<Position, Square> getSquares() {
-        return board.pieces();
+    public Map<Position, Piece> getPieces() {
+        Map<Position, Square> pieces = board.pieces();
+        return pieces.keySet()
+                .stream()
+                .collect(
+                        HashMap::new,
+                        (map, position) -> map.put(position, pieces.get(position).getPiece()),
+                        HashMap::putAll
+                );
     }
 }
