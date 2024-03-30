@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chess.board.Board;
-import chess.board.BoardInitializer;
-import chess.position.File;
-import chess.position.Position;
-import chess.position.Rank;
+import chess.domain.board.Board;
+import chess.domain.board.BoardInitializer;
+import chess.domain.position.File;
+import chess.domain.position.Position;
+import chess.domain.position.Rank;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

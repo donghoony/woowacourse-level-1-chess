@@ -8,6 +8,7 @@ public enum Command {
     END("end"),
     MOVE("move"),
     STATUS("status"),
+    SAVE("save"),
     ;
 
     private final String text;

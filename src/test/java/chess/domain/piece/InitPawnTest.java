@@ -1,0 +1,41 @@
+package chess.domain.piece;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import chess.domain.position.UnitMovement;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+class InitPawnTest {
+
+    @Test
+    @DisplayName("최초 폰은 최대 2만큼 전진할 수 있다.")
+    void initPawnMoveTest() {
+        // given
+        InitPawn whitePawn = InitPawn.getInstance(Color.WHITE);
+        InitPawn blackPawn = InitPawn.getInstance(Color.BLACK);
+        UnitMovement whiteDirection = UnitMovement.differencesOf(0, 1);
+        UnitMovement blackDirection = UnitMovement.differencesOf(0, -1);
+        // when
+        boolean isWhiteMovable = whitePawn.isMovable(whiteDirection, 2);
+        boolean isBlackMovable = blackPawn.isMovable(blackDirection, 2);
+        // then
+        assertAll(
+                () -> assertThat(isWhiteMovable).isTrue(),
+                () -> assertThat(isBlackMovable).isTrue()
+        );
+    }
+
+    @Test
+    @DisplayName("InitPawn이 이동하면 MovedPawn으로 교체한다.")
+    void replaceInitPawnTest() {
+        // given
+        InitPawn initPawn = InitPawn.getInstance(Color.WHITE);
+        // when
+        Piece movedPawn = initPawn.move();
+        // then
+        assertThat(movedPawn).isInstanceOf(MovedPawn.class);
+    }
+
+}

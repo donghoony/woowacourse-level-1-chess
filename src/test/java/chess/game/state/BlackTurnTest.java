@@ -2,14 +2,14 @@ package chess.game.state;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chess.board.Board;
-import chess.board.BoardInitializer;
-import chess.piece.Color;
-import chess.piece.King;
-import chess.piece.Piece;
-import chess.position.File;
-import chess.position.Position;
-import chess.position.Rank;
+import chess.domain.board.Board;
+import chess.domain.board.BoardInitializer;
+import chess.domain.piece.Color;
+import chess.domain.piece.King;
+import chess.domain.piece.Piece;
+import chess.domain.position.File;
+import chess.domain.position.Position;
+import chess.domain.position.Rank;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

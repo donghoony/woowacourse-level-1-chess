@@ -1,12 +1,13 @@
 package chess.game;
 
-import chess.board.Board;
-import chess.board.Square;
+import chess.domain.board.Board;
+import chess.domain.board.BoardGenerator;
+import chess.domain.board.Square;
+import chess.domain.piece.Color;
+import chess.domain.position.Position;
+import chess.domain.score.Score;
 import chess.game.state.GameState;
 import chess.game.state.InitState;
-import chess.piece.Color;
-import chess.position.Position;
-import chess.score.Score;
 import java.util.Map;
 
 public class ChessGame {

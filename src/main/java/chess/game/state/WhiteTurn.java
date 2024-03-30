@@ -1,8 +1,8 @@
 package chess.game.state;
 
-import chess.board.Board;
-import chess.piece.Color;
-import chess.position.Position;
+import chess.domain.board.Board;
+import chess.domain.piece.Color;
+import chess.domain.position.Position;
 
 public class WhiteTurn extends TurnState {
 

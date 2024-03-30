@@ -1,7 +1,7 @@
 package chess.game.state;
 
-import chess.board.Board;
-import chess.position.Position;
+import chess.domain.board.Board;
+import chess.domain.position.Position;
 
 public interface GameState {
 
