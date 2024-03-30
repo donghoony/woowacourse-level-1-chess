@@ -16,7 +16,7 @@ public class ChessGame {
 
     public ChessGame(BoardGenerator generator) {
         this.board = generator.createBoard();
-        this.gameState = new InitState();
+        this.gameState = InitState.getInstance();
     }
 
     public void start() {

@@ -5,7 +5,12 @@ import chess.position.Position;
 
 public class TerminatedState implements GameState {
 
+    private static final TerminatedState INSTANCE = new TerminatedState();
+
     private static final String TERMINATED_ERROR_MESSAGE = "게임이 이미 종료되었습니다.";
+
+    private TerminatedState() {
+    }
 
     @Override
     public GameState start() {
@@ -25,5 +30,9 @@ public class TerminatedState implements GameState {
     @Override
     public boolean isPlaying() {
         return false;
+    }
+
+    public static TerminatedState getInstance() {
+        return INSTANCE;
     }
 }

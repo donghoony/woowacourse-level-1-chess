@@ -5,9 +5,14 @@ import chess.position.Position;
 
 public class InitState implements GameState {
 
+    private static final InitState INSTANCE = new InitState();
+
+    private InitState() {
+    }
+
     @Override
     public GameState start() {
-        return new WhiteTurn();
+        return WhiteTurn.getInstance();
     }
 
     @Override
@@ -17,11 +22,15 @@ public class InitState implements GameState {
 
     @Override
     public GameState terminate() {
-        return new TerminatedState();
+        return TerminatedState.getInstance();
     }
 
     @Override
     public boolean isPlaying() {
         return false;
+    }
+
+    public static InitState getInstance() {
+        return INSTANCE;
     }
 }

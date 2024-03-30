@@ -22,7 +22,7 @@ class BlackTurnTest {
     void whiteStateAfterMovingBlack() {
         // given
         Board board = BoardInitializer.createBoard();
-        BlackTurn blackTurn = new BlackTurn();
+        BlackTurn blackTurn = BlackTurn.getInstance();
         Position source = Position.of(File.A, Rank.SEVEN);
         Position destination = Position.of(File.A, Rank.FIVE);
         // when
@@ -42,7 +42,7 @@ class BlackTurnTest {
         pieces.put(destination, King.getInstance(Color.WHITE));
         Board board = new Board(pieces);
 
-        BlackTurn blackTurn = new BlackTurn();
+        BlackTurn blackTurn = BlackTurn.getInstance();
         // when
         GameState actual = blackTurn.proceedTurn(board, source, destination);
         // then

@@ -23,7 +23,7 @@ class TerminatedStateTest {
         @DisplayName("진행 현황을 올바르게 반환한다.")
         void isPlayingTest() {
             // given
-            TerminatedState terminatedState = new TerminatedState();
+            TerminatedState terminatedState = TerminatedState.getInstance();
             // when
             boolean actual = terminatedState.isPlaying();
             // then
@@ -37,7 +37,7 @@ class TerminatedStateTest {
             Board board = BoardInitializer.createBoard();
             Position source = Position.of(File.A, Rank.TWO);
             Position destination = Position.of(File.A, Rank.FOUR);
-            TerminatedState terminatedState = new TerminatedState();
+            TerminatedState terminatedState = TerminatedState.getInstance();
             // when, then
             assertAll(
                     () -> assertThatThrownBy(terminatedState::start)
@@ -55,7 +55,7 @@ class TerminatedStateTest {
         @Test
         @DisplayName("플레이 중을 검증한다.")
         void validatePlaying() {
-            TerminatedState state = new TerminatedState();
+            TerminatedState state = TerminatedState.getInstance();
             assertThatThrownBy(state::validatePlaying)
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("게임이 진행되고 있지 않습니다.");

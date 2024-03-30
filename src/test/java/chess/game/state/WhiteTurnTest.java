@@ -24,7 +24,7 @@ class WhiteTurnTest {
         Board board = BoardInitializer.createBoard();
         Position source = Position.of(File.A, Rank.TWO);
         Position destination = Position.of(File.A, Rank.FOUR);
-        WhiteTurn whiteTurn = new WhiteTurn();
+        WhiteTurn whiteTurn = WhiteTurn.getInstance();
         // when
         GameState actual = whiteTurn.proceedTurn(board, source, destination);
         // then
@@ -42,7 +42,7 @@ class WhiteTurnTest {
         pieces.put(destination, King.getInstance(Color.BLACK));
         Board board = new Board(pieces);
 
-        WhiteTurn whiteTurn = new WhiteTurn();
+        WhiteTurn whiteTurn = WhiteTurn.getInstance();
         // when
         GameState actual = whiteTurn.proceedTurn(board, source, destination);
         // then

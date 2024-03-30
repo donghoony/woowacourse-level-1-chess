@@ -6,12 +6,21 @@ import chess.position.Position;
 
 public class BlackTurn extends TurnState {
 
+    private static final BlackTurn INSTANCE = new BlackTurn();
+
+    private BlackTurn() {
+    }
+
     @Override
     public GameState proceedTurn(Board board, Position source, Position destination) {
         board.move(source, destination, Color.BLACK);
         if (board.isKingCaptured(Color.WHITE)) {
-            return new TerminatedState();
+            return TerminatedState.getInstance();
         }
-        return new WhiteTurn();
+        return WhiteTurn.getInstance();
+    }
+
+    public static BlackTurn getInstance() {
+        return INSTANCE;
     }
 }
