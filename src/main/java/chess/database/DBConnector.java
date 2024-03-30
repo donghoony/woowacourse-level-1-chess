@@ -10,16 +10,20 @@ import java.util.Properties;
 public class DBConnector {
 
     private static final String PROPERTIES_PATH = "properties/chess.properties";
+    private static final Properties properties;
+
+    static {
+        properties = getProperties();
+    }
 
     private DBConnector() {
     }
 
     public static Connection getConnection() {
-        Properties properties = getProperties();
         String username = properties.getProperty("database.username");
         String password = properties.getProperty("database.password");
         try {
-            return DriverManager.getConnection(createDatabaseURLFrom(properties), username, password);
+            return DriverManager.getConnection(createDatabaseURL(), username, password);
         } catch (final SQLException e) {
             throw new IllegalStateException("DB 연결 오류 : " + e.getMessage());
         }
@@ -37,7 +41,7 @@ public class DBConnector {
         return properties;
     }
 
-    private static String createDatabaseURLFrom(Properties properties) {
+    private static String createDatabaseURL() {
         return String.format(
                 "jdbc:mysql://%s/%s%s",
                 properties.getProperty("database.url"),
