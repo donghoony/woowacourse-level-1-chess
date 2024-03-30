@@ -20,6 +20,11 @@ public class BlackTurn extends TurnState {
         return WhiteTurn.getInstance();
     }
 
+    @Override
+    public GameState pause() {
+        return BlackPausedState.getInstance();
+    }
+
     public static BlackTurn getInstance() {
         return INSTANCE;
     }

@@ -2,7 +2,7 @@ USE chess;
 
 CREATE TABLE ChessGame
 (
-    state varchar(12) check (state in ('init', 'white', 'black', 'terminated'))
+    state varchar(12) check (state in ('init', 'white', 'black', 'terminated', 'white_paused', 'black_paused'))
 );
 
 create table Piece

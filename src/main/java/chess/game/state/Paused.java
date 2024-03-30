@@ -3,17 +3,7 @@ package chess.game.state;
 import chess.domain.board.Board;
 import chess.domain.position.Position;
 
-public class InitState implements GameState {
-
-    private static final InitState INSTANCE = new InitState();
-
-    private InitState() {
-    }
-
-    @Override
-    public GameState start() {
-        return WhiteTurn.getInstance();
-    }
+public abstract class Paused implements GameState {
 
     @Override
     public GameState proceedTurn(Board board, Position source, Position destination) {
@@ -33,9 +23,5 @@ public class InitState implements GameState {
     @Override
     public boolean isPlaying() {
         return false;
-    }
-
-    public static InitState getInstance() {
-        return INSTANCE;
     }
 }

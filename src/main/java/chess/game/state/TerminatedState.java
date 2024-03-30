@@ -23,6 +23,11 @@ public class TerminatedState implements GameState {
     }
 
     @Override
+    public GameState pause() {
+        throw new UnsupportedOperationException(TERMINATED_ERROR_MESSAGE);
+    }
+
+    @Override
     public GameState terminate() {
         throw new UnsupportedOperationException(TERMINATED_ERROR_MESSAGE);
     }

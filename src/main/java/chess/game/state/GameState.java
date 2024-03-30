@@ -9,6 +9,8 @@ public interface GameState {
 
     GameState proceedTurn(Board board, Position source, Position destination);
 
+    GameState pause();
+
     GameState terminate();
 
     boolean isPlaying();

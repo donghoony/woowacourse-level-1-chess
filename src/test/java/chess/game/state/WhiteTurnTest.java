@@ -48,4 +48,15 @@ class WhiteTurnTest {
         // then
         assertThat(actual).isInstanceOf(TerminatedState.class);
     }
+
+    @Test
+    @DisplayName("일시정지하면 백 일시정지 상태로 전이된다.")
+    void pauseTest() {
+        // given
+        WhiteTurn state = WhiteTurn.getInstance();
+        // when
+        GameState actual = state.pause();
+        // then
+        assertThat(actual).isInstanceOf(WhitePausedState.class);
+    }
 }

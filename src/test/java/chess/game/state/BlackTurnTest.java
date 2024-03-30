@@ -48,4 +48,15 @@ class BlackTurnTest {
         // then
         assertThat(actual).isInstanceOf(TerminatedState.class);
     }
+
+    @Test
+    @DisplayName("일시정지하면 흑 일시정지 상태로 전이된다.")
+    void pauseTest() {
+        // given
+        BlackTurn state = BlackTurn.getInstance();
+        // when
+        GameState actual = state.pause();
+        // then
+        assertThat(actual).isInstanceOf(BlackPausedState.class);
+    }
 }

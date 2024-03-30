@@ -68,4 +68,15 @@ class InitStateTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("게임이 진행되고 있지 않습니다.");
     }
+
+    @Test
+    @DisplayName("처음 상태에서 일시정지할 수 없다.")
+    void pauseTest() {
+        // given
+        InitState initState = InitState.getInstance();
+        // when, then
+        assertThatThrownBy(initState::pause)
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("게임이 시작되지 않았습니다.");
+    }
 }

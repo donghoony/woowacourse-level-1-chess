@@ -48,6 +48,9 @@ class TerminatedStateTest {
                             .hasMessage("게임이 이미 종료되었습니다."),
                     () -> assertThatThrownBy(terminatedState::terminate)
                             .isInstanceOf(UnsupportedOperationException.class)
+                            .hasMessage("게임이 이미 종료되었습니다."),
+                    () -> assertThatThrownBy(terminatedState::pause)
+                            .isInstanceOf(UnsupportedOperationException.class)
                             .hasMessage("게임이 이미 종료되었습니다.")
             );
         }

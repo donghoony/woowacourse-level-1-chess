@@ -18,6 +18,11 @@ class TurnStateTest {
             public GameState proceedTurn(Board board, Position source, Position destination) {
                 return null;
             }
+
+            @Override
+            public GameState pause() {
+                return null;
+            }
         };
     }
 
