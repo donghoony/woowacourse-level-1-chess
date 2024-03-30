@@ -17,16 +17,28 @@ public class ChessGame {
     private GameState gameState;
 
     public ChessGame(Board board) {
-        this.board = board;
-        this.gameState = InitState.getInstance();
+        this(board, InitState.getInstance());
     }
 
-    public void start() {
+    public ChessGame(Board board, GameState gameState) {
+        this.board = board;
+        this.gameState = gameState;
+    }
+
+    public boolean start() {
+        if (gameState.isPlaying()) {
+            return false;
+        }
         gameState = gameState.start();
+        return true;
     }
 
     public void proceedTurn(Position source, Position destination) {
         gameState = gameState.proceedTurn(board, source, destination);
+    }
+
+    public void pause() {
+        gameState = gameState.pause();
     }
 
     public void terminate() {
@@ -56,5 +68,9 @@ public class ChessGame {
                         (map, position) -> map.put(position, pieces.get(position).getPiece()),
                         HashMap::putAll
                 );
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 }

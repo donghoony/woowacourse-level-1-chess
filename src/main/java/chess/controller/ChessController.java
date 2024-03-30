@@ -1,14 +1,12 @@
 package chess.controller;
 
-import chess.domain.board.Square;
+import chess.domain.piece.Piece;
 import chess.domain.position.File;
 import chess.domain.position.Position;
 import chess.domain.position.Rank;
 import chess.game.ChessGame;
 import chess.game.GameScore;
-import chess.position.File;
-import chess.position.Position;
-import chess.position.Rank;
+import chess.service.GameService;
 import chess.view.Command;
 import chess.view.InputView;
 import chess.view.OutputView;
@@ -23,65 +21,71 @@ public class ChessController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final Map<Command, CommandExecutor> executors;
-    private final ChessGame chessGame;
 
-    public ChessController(InputView inputView, OutputView outputView) {
+    private final Map<Command, CommandExecutor> executors;
+    private final GameService gameService;
+
+    public ChessController(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.chessGame = new ChessGame(BoardInitializer::createBoard);
+        this.gameService = gameService;
         this.executors = new EnumMap<>(Command.class);
     }
 
     public void run() {
         prepareCommandExecutors();
         outputView.printInitMessage();
-        executeCommandFromInput();
+        ChessGame chessGame = gameService.loadPlayingGame();
+        executeCommandFromInput(chessGame);
     }
 
     private void prepareCommandExecutors() {
-        executors.put(Command.START, this::startGame);
+        executors.put(Command.START, this::loopGame);
         executors.put(Command.MOVE, this::proceedTurn);
         executors.put(Command.STATUS, this::showStatus);
-        executors.put(Command.END, this::terminate);
+        executors.put(Command.END, this::pause);
+        executors.put(Command.RESET, this::reset);
     }
 
-    private void executeCommandFromInput() {
+    private void reset(ChessGame chessGame) {
+        chessGame.terminate();
+        gameService.reset();
+    }
+
+    private void executeCommandFromInput(ChessGame chessGame) {
         Command command = inputView.readCommand();
         CommandExecutor commandExecutor = executors.get(command);
-        commandExecutor.execute();
+        commandExecutor.execute(chessGame);
     }
 
-    public void startGame() {
-        chessGame.start();
-        printBoard();
+    public void loopGame(ChessGame chessGame) {
+        printBoard(chessGame);
+        gameService.startGame(chessGame);
         while (chessGame.isPlaying()) {
-            executeCommandFromInput();
+            executeCommandFromInput(chessGame);
         }
+        gameService.save(chessGame);
         outputView.printEndMessage();
     }
 
-    private void showStatus() {
+    private void showStatus(ChessGame chessGame) {
         chessGame.validatePlaying();
         GameScore gameScore = chessGame.calculateScore();
         outputView.printScore(gameScore.whiteScore(), gameScore.blackScore());
     }
 
-    private void proceedTurn() {
+    private void proceedTurn(ChessGame chessGame) {
         PathDto pathDto = inputView.readPosition();
         Position source = getSourceFrom(pathDto);
         Position destination = getDestinationFrom(pathDto);
         chessGame.proceedTurn(source, destination);
-        printBoard();
+        printBoard(chessGame);
     }
 
-    private void terminate() {
-        chessGame.terminate();
+    private void pause(ChessGame chessGame) {
+        chessGame.pause();
     }
 
-    private void printBoard() {
-        Map<Position, Square> squares = chessGame.getSquares();
-        List<RankDisplay> rankDisplays = BoardDisplayConverter.convert(squares);
     private void printBoard(ChessGame chessGame) {
         Map<Position, Piece> pieces = chessGame.getPieces();
         List<RankDisplay> rankDisplays = BoardDisplayConverter.convert(pieces);
