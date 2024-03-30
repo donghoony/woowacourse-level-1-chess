@@ -1,7 +1,6 @@
 package chess.game;
 
 import chess.domain.board.Board;
-import chess.domain.board.BoardGenerator;
 import chess.domain.board.Square;
 import chess.domain.piece.Color;
 import chess.domain.piece.Piece;
@@ -17,8 +16,8 @@ public class ChessGame {
     private final Board board;
     private GameState gameState;
 
-    public ChessGame(BoardGenerator generator) {
-        this.board = generator.createBoard();
+    public ChessGame(Board board) {
+        this.board = board;
         this.gameState = InitState.getInstance();
     }
 

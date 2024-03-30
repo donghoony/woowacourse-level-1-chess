@@ -20,7 +20,7 @@ class ChessGameTest {
     @DisplayName("최초 생성 시에는 플레이 중이 아니다.")
     void initIsPlayingTest() {
         // given
-        ChessGame chessGame = new ChessGame(() -> new Board(Map.of()));
+        ChessGame chessGame = new ChessGame(new Board(Map.of()));
         // when
         boolean actual = chessGame.isPlaying();
         // then
@@ -31,7 +31,7 @@ class ChessGameTest {
     @DisplayName("시작한 뒤에는 플레이 중으로 변화한다.")
     void isPlayingAfterStartTest() {
         // given
-        ChessGame chessGame = new ChessGame(() -> new Board(Map.of()));
+        ChessGame chessGame = new ChessGame(new Board(Map.of()));
         // when
         chessGame.start();
         boolean actual = chessGame.isPlaying();
@@ -43,7 +43,7 @@ class ChessGameTest {
     @DisplayName("점수를 올바르게 계산한다.")
     void calculateScoreTest() {
         // given
-        ChessGame chessGame = new ChessGame(() -> new Board(
+        ChessGame chessGame = new ChessGame(new Board(
                 Map.of(
                         Position.of(File.A, Rank.ONE), Bishop.getInstance(Color.BLACK),
                         Position.of(File.A, Rank.TWO), Rook.getInstance(Color.WHITE)
