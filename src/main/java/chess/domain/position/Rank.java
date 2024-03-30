@@ -37,4 +37,8 @@ public enum Rank {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("행 범위를 벗어납니다."));
     }
+
+    public int getNumber() {
+        return number;
+    }
 }
