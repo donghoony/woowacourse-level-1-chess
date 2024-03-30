@@ -1,7 +1,6 @@
 package chess.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import chess.dao.ChessGameDao;
 import chess.domain.board.Board;
@@ -15,8 +14,6 @@ import chess.domain.position.Rank;
 import chess.game.ChessGame;
 import chess.game.state.WhiteTurn;
 import java.util.Map;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +34,7 @@ class GameServiceTest {
     @DisplayName("체스 게임을 생성한다.")
     void createChessGameTest() {
         // when
-        ChessGame chessGame = gameService.createChessGame();
+        gameService.createChessGame();
         boolean actual = chessGameDao.hasPlayingGame();
         // then
         assertThat(actual).isTrue();

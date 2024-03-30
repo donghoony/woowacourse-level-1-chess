@@ -43,7 +43,7 @@ public class ChessGameJdbcDao implements ChessGameDao {
 
         try (Connection connection = DBConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                "SELECT state FROM chess.ChessGame")) {
+                     "SELECT state FROM chess.ChessGame")) {
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
             String state = resultSet.getString("state");
