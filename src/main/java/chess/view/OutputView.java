@@ -16,7 +16,11 @@ public class OutputView {
                         > 게임 종료 : %s (진행 상태가 저장됩니다.)
                         > 방 삭제 : %s (방이 삭제되고 종료됩니다.)
                         > 방 이름 :\s""",
-                Command.MOVE, Command.MOVE, Command.STATUS, Command.END, Command.RESET);
+                Command.MOVE.getText(),
+                Command.MOVE.getText(),
+                Command.STATUS.getText(),
+                Command.END.getText(),
+                Command.RESET.getText());
     }
 
     public void printBoard(List<RankDisplay> rankDisplays) {
