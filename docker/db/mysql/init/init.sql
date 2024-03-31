@@ -2,13 +2,13 @@ USE chess;
 
 CREATE TABLE ChessGame
 (
-    state varchar(12) check (state in ('init', 'white', 'black', 'terminated', 'white_paused', 'black_paused'))
+    state varchar(12)
 );
 
 create table Piece
 (
-    file    char(1)       check (file between 'A' and 'H'),
-    `rank`  int           check (`rank` between 1 and 8),
-    type    varchar(10)   check (type in ('initpawn', 'movedpawn', 'rook', 'knight', 'bishop', 'queen', 'king')),
-    color   varchar(5)    check (color in ('white', 'black'))
+    file    char(1),
+    `rank`  int,
+    type    varchar(10),
+    color   varchar(5)
 );
