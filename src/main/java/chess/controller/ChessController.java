@@ -1,9 +1,7 @@
 package chess.controller;
 
 import chess.domain.piece.Piece;
-import chess.domain.position.File;
 import chess.domain.position.Position;
-import chess.domain.position.Rank;
 import chess.game.ChessGame;
 import chess.game.GameScore;
 import chess.service.GameService;
@@ -76,8 +74,8 @@ public class ChessController {
 
     private void proceedTurn(ChessGame chessGame) {
         PathDto pathDto = inputView.readPosition();
-        Position source = getSourceFrom(pathDto);
-        Position destination = getDestinationFrom(pathDto);
+        Position source = pathDto.toSourcePosition();
+        Position destination = pathDto.toDestinationPosition();
         chessGame.proceedTurn(source, destination);
         printBoard(chessGame);
     }
@@ -90,19 +88,5 @@ public class ChessController {
         Map<Position, Piece> pieces = chessGame.getPieces();
         List<RankDisplay> rankDisplays = BoardDisplayConverter.convert(pieces);
         outputView.printBoard(rankDisplays);
-    }
-
-    private Position getSourceFrom(PathDto pathDto) {
-        return Position.of(
-                File.from(pathDto.sourceFileName()),
-                Rank.from(pathDto.sourceRankNumber())
-        );
-    }
-
-    private Position getDestinationFrom(PathDto pathDto) {
-        return Position.of(
-                File.from(pathDto.destinationFileName()),
-                Rank.from(pathDto.destinationRankNumber())
-        );
     }
 }
