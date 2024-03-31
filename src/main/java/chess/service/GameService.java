@@ -67,8 +67,10 @@ public class GameService {
     }
 
     public boolean isGamePlayingOn(String roomName) {
-        ChessGame chessGame = getOrCreateChessGame(roomName);
-        return chessGame.isPlaying();
+        return chessGameDao.findGameByName(roomName)
+                .map(ChessGameDto::toGame)
+                .map(ChessGame::isPlaying)
+                .orElse(false);
     }
 
     public Map<Position, Piece> getPieces(String roomName) {

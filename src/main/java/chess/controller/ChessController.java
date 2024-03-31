@@ -58,7 +58,6 @@ public class ChessController {
         while (gameService.isGamePlayingOn(roomName)) {
             executeCommandFromInput(roomName);
         }
-        gameService.save(roomName);
         outputView.printEndMessage();
     }
 
