@@ -1,5 +1,6 @@
 package chess.view;
 
+import chess.game.Name;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +28,11 @@ public class InputView {
                 input.substring(3, 4),
                 Integer.parseInt(input.substring(4, 5))
         );
+    }
+
+    public Name readName() {
+        String input = scanner.nextLine();
+        return new Name(input.strip());
     }
 
     public Command readCommand() {
