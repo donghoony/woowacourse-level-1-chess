@@ -19,7 +19,6 @@ public class FakeChessGameDao implements ChessGameDao {
 
     @Override
     public ChessGameDto createChessGame(String name, Map<Position, Piece> pieces, GameState gameState) {
-        ChessGame chessGame = new ChessGame(new Board(pieces), gameState);
         pieceDao.saveAllPieces(name, pieces);
         ChessGameDto chessGameDto = new ChessGameDto(name, pieces, gameState);
         updateGame(chessGameDto);
