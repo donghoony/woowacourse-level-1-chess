@@ -6,9 +6,9 @@ import java.util.Map;
 
 public interface PieceDao {
 
-    void saveAllPieces(Map<Position, Piece> pieces);
+    void saveAllPieces(String name, Map<Position, Piece> pieces);
 
-    Map<Position, Piece> findPieces();
+    Map<Position, Piece> findPiecesByName(String name);
 
-    void removeAllPieces();
+    void removePiecesByName(String name);
 }

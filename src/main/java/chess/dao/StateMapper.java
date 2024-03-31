@@ -16,8 +16,7 @@ public enum StateMapper {
     BLACK_TURN(BlackTurn.getInstance(), "black"),
     TERMINATED(TerminatedState.getInstance(), "terminated"),
     WHITE_PAUSED(WhitePausedState.getInstance(), "white_paused"),
-    BLACK_PAUSED(BlackPausedState.getInstance(), "black_paused")
-    ;
+    BLACK_PAUSED(BlackPausedState.getInstance(), "black_paused");
 
     private final GameState state;
     private final String name;

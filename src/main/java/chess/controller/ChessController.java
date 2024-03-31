@@ -2,8 +2,8 @@ package chess.controller;
 
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
-import chess.game.ChessGame;
 import chess.game.GameScore;
+import chess.game.Name;
 import chess.service.GameService;
 import chess.view.Command;
 import chess.view.InputView;
@@ -33,59 +33,58 @@ public class ChessController {
     public void run() {
         prepareCommandExecutors();
         outputView.printInitMessage();
-        ChessGame chessGame = gameService.loadPlayingGame();
-        executeCommandFromInput(chessGame);
+
+        Name name = inputView.readName();
+        loopGame(name.asText());
     }
 
     private void prepareCommandExecutors() {
-        executors.put(Command.START, this::loopGame);
         executors.put(Command.MOVE, this::proceedTurn);
         executors.put(Command.STATUS, this::showStatus);
         executors.put(Command.END, this::pause);
         executors.put(Command.RESET, this::reset);
     }
 
-    private void reset(ChessGame chessGame) {
-        chessGame.terminate();
-        gameService.reset();
-    }
-
-    private void executeCommandFromInput(ChessGame chessGame) {
+    private void executeCommandFromInput(String roomName) {
         Command command = inputView.readCommand();
         CommandExecutor commandExecutor = executors.get(command);
-        commandExecutor.execute(chessGame);
+        commandExecutor.execute(roomName);
     }
 
-    public void loopGame(ChessGame chessGame) {
-        printBoard(chessGame);
-        gameService.startGame(chessGame);
-        while (chessGame.isPlaying()) {
-            executeCommandFromInput(chessGame);
+    public void loopGame(String roomName) {
+        printBoard(roomName);
+        gameService.getOrCreateChessGame(roomName);
+        gameService.resumeGame(roomName);
+        while (gameService.isGamePlayingOn(roomName)) {
+            executeCommandFromInput(roomName);
         }
-        gameService.save(chessGame);
+        gameService.save(roomName);
         outputView.printEndMessage();
     }
 
-    private void showStatus(ChessGame chessGame) {
-        chessGame.validatePlaying();
-        GameScore gameScore = chessGame.calculateScore();
-        outputView.printScore(gameScore.whiteScore(), gameScore.blackScore());
-    }
-
-    private void proceedTurn(ChessGame chessGame) {
+    private void proceedTurn(String roomName) {
         PathDto pathDto = inputView.readPosition();
         Position source = pathDto.toSourcePosition();
         Position destination = pathDto.toDestinationPosition();
-        chessGame.proceedTurn(source, destination);
-        printBoard(chessGame);
+        gameService.proceedTurn(roomName, source, destination);
+        printBoard(roomName);
     }
 
-    private void pause(ChessGame chessGame) {
-        chessGame.pause();
+    private void showStatus(String roomName) {
+        GameScore gameScore = gameService.calculateScore(roomName);
+        outputView.printScore(gameScore.whiteScore(), gameScore.blackScore());
     }
 
-    private void printBoard(ChessGame chessGame) {
-        Map<Position, Piece> pieces = chessGame.getPieces();
+    private void pause(String roomName) {
+        gameService.pause(roomName);
+    }
+
+    private void reset(String roomName) {
+        gameService.removeGame(roomName);
+    }
+
+    private void printBoard(String roomName) {
+        Map<Position, Piece> pieces = gameService.getPieces(roomName);
         List<RankDisplay> rankDisplays = BoardDisplayConverter.convert(pieces);
         outputView.printBoard(rankDisplays);
     }

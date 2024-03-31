@@ -9,13 +9,14 @@ public class OutputView {
     public void printInitMessage() {
         System.out.printf("""
                         > 체스 게임을 시작합니다.
-                        > 게임 시작: %s
-                        > 게임 이동 : %s source위치 target위치, 예. %s b2 b3
+                        > 게임 시작을 위해 방 이름을 입력하세요, 방 이름은 알파벳 소문자 10글자까지 가능합니다.
+                        (추가 커맨드)
+                        > 게임 이동 : %s (source) (target), 예: %s b2 b3
                         > 점수 확인 : %s
                         > 게임 종료 : %s (진행 상태가 저장됩니다.)
-                        > 게임 초기화 : %s (진행 상태가 초기화되고 종료됩니다.)
-                        """,
-                Command.START, Command.MOVE, Command.MOVE, Command.STATUS, Command.END, Command.RESET);
+                        > 방 삭제 : %s (방이 삭제되고 종료됩니다.)
+                        > 방 이름 :\s""",
+                Command.MOVE, Command.MOVE, Command.STATUS, Command.END, Command.RESET);
     }
 
     public void printBoard(List<RankDisplay> rankDisplays) {

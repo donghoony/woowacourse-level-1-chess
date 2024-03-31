@@ -3,17 +3,22 @@ package chess.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import chess.dao.ChessGameDao;
+import chess.dao.ChessGameDto;
 import chess.domain.board.Board;
 import chess.domain.board.BoardInitializer;
 import chess.domain.piece.Color;
-import chess.domain.piece.Piece;
 import chess.domain.piece.Rook;
 import chess.domain.position.File;
 import chess.domain.position.Position;
 import chess.domain.position.Rank;
 import chess.game.ChessGame;
+import chess.game.GameScore;
+import chess.game.state.BlackTurn;
+import chess.game.state.InitState;
+import chess.game.state.WhitePausedState;
 import chess.game.state.WhiteTurn;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,80 +36,124 @@ class GameServiceTest {
     }
 
     @Test
-    @DisplayName("체스 게임을 생성한다.")
+    @DisplayName("방이 존재하지 않는 경우, 체스 게임을 생성한다.")
     void createChessGameTest() {
         // when
-        gameService.createChessGame();
-        boolean actual = chessGameDao.hasPlayingGame();
+        gameService.getOrCreateChessGame("hello");
+        Optional<ChessGameDto> game = chessGameDao.findGameByName("hello");
         // then
-        assertThat(actual).isTrue();
+        assertThat(game).isPresent();
     }
 
     @Test
-    @DisplayName("진행 중인 체스 게임이 존재하지 않는 경우, 체스 게임을 새로 만든다.")
-    void loadPlayingGameOnNoSavedGameExistsTest() {
-        Board board = BoardInitializer.createBoard();
-        ChessGame expected = new ChessGame(board);
-        // when
-        ChessGame chessGame = gameService.loadPlayingGame();
-        // then
-        assertThat(chessGame.getPieces()).containsAllEntriesOf(expected.getPieces());
-    }
-
-    @Test
-    @DisplayName("진행 중인 체스 게임이 존재하는 경우, 불러온다.")
-    void loadPlayingGameTest() {
+    @DisplayName("방이 이미 존재하는 경우, 해당 방의 체스 게임을 반환한다.")
+    void createChessGameOnExistTest() {
         // given
-        Board board = new Board(Map.of(
-                Position.of(File.A, Rank.ONE), Rook.getInstance(Color.WHITE)
+        ChessGame chessGame = new ChessGame(new Board(
+                Map.of(Position.of(File.A, Rank.ONE), Rook.getInstance(Color.WHITE))
         ));
-        ChessGame chessGame = new ChessGame(board);
-        chessGameDao.updateGame(chessGame);
+        chessGameDao.createChessGame("hello", chessGame.getPieces(), WhiteTurn.getInstance());
         // when
-        ChessGame actual = gameService.loadPlayingGame();
-        Map<Position, Piece> pieces = actual.getPieces();
+        ChessGame actual = gameService.getOrCreateChessGame("hello");
         // then
-        assertThat(pieces).containsOnlyKeys(Position.of(File.A, Rank.ONE));
+        assertThat(actual.getPieces()).containsOnlyKeys(Position.of(File.A, Rank.ONE));
     }
 
     @Test
-    @DisplayName("게임을 시작한다.")
-    void startGameTest() {
+    @DisplayName("일시정지된 게임을 시작한다.")
+    void resumeTest() {
         // given
         ChessGame chessGame = new ChessGame(BoardInitializer.createBoard());
+        chessGameDao.createChessGame("hello", chessGame.getPieces(), InitState.getInstance());
         // when
-        gameService.startGame(chessGame);
-        boolean actual = chessGameDao.hasPlayingGame();
+        gameService.resumeGame("hello");
+        Optional<ChessGameDto> actual = chessGameDao.findGameByName("hello");
         // then
-        assertThat(actual).isTrue();
+        assertThat(actual).isPresent();
+        assertThat(actual.get().gameState()).isEqualTo(WhiteTurn.getInstance());
+    }
+
+    @Test
+    @DisplayName("게임을 진행한다.")
+    void proceedTurnTest() {
+        // given
+        ChessGame chessGame = new ChessGame(BoardInitializer.createBoard());
+        chessGameDao.createChessGame("hello", chessGame.getPieces(), WhiteTurn.getInstance());
+        Position source = Position.of(File.A, Rank.TWO);
+        Position destination = Position.of(File.A, Rank.THREE);
+        // when
+        gameService.proceedTurn("hello", source, destination);
+        Optional<ChessGameDto> actual = chessGameDao.findGameByName("hello");
+        // then
+        assertThat(actual).isPresent();
+        assertThat(actual.get().pieces()).containsKey(destination);
     }
 
     @Test
     @DisplayName("게임을 저장한다.")
     void saveTest() {
         // given
-        ChessGame chessGame = new ChessGame(BoardInitializer.createBoard(), WhiteTurn.getInstance());
+        ChessGame chessGame = new ChessGame(BoardInitializer.createBoard());
+        chessGameDao.createChessGame("hello", chessGame.getPieces(), BlackTurn.getInstance());
         // when
-        gameService.save(chessGame);
-        boolean actual = chessGameDao.hasPlayingGame();
+        gameService.save("hello");
+        Optional<ChessGameDto> actual = chessGameDao.findGameByName("hello");
         // then
-        assertThat(actual).isTrue();
+        assertThat(actual).isPresent();
+        assertThat(actual.get().gameState()).isEqualTo(BlackTurn.getInstance());
     }
 
     @Test
-    @DisplayName("게임을 초기화한다.")
-    void resetTest() {
+    @DisplayName("게임을 일시정지한다.")
+    void pauseTest() {
         // given
-        Board board = new Board(Map.of(
-                Position.of(File.A, Rank.ONE), Rook.getInstance(Color.WHITE)
-        ));
-        ChessGame chessGame = new ChessGame(board);
-        chessGameDao.updateGame(chessGame);
+        ChessGame chessGame = new ChessGame(BoardInitializer.createBoard());
+        chessGameDao.createChessGame("hello", chessGame.getPieces(), WhiteTurn.getInstance());
         // when
-        gameService.reset();
-        ChessGame actual = chessGameDao.findCurrentGame();
+        gameService.pause("hello");
+        Optional<ChessGameDto> actual = chessGameDao.findGameByName("hello");
         // then
-        ChessGame expected = new ChessGame(BoardInitializer.createBoard());
-        assertThat(actual.getPieces()).containsAllEntriesOf(expected.getPieces());
+        assertThat(actual).isPresent();
+        assertThat(actual.get().gameState()).isEqualTo(WhitePausedState.getInstance());
+    }
+
+    @Test
+    @DisplayName("게임을 삭제한다.")
+    void removeTest() {
+        // given
+        ChessGame chessGame = new ChessGame(BoardInitializer.createBoard());
+        chessGameDao.createChessGame("hello", chessGame.getPieces(), WhiteTurn.getInstance());
+        // when
+        gameService.removeGame("hello");
+        Optional<ChessGameDto> actual = chessGameDao.findGameByName("hello");
+        // then
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    @DisplayName("게임의 점수를 계산한다.")
+    void calculateScoreTest() {
+        // given
+        ChessGame chessGame = new ChessGame(
+                new Board(Map.of(Position.of(File.A, Rank.ONE), Rook.getInstance(Color.WHITE)))
+        );
+        chessGameDao.createChessGame("hello", chessGame.getPieces(), WhiteTurn.getInstance());
+        // when
+        GameScore actual = gameService.calculateScore("hello");
+        // then
+        assertThat(actual.whiteScore()).isEqualTo(5);
+        assertThat(actual.blackScore()).isZero();
+    }
+
+    @Test
+    @DisplayName("게임이 진행 중인지 확인한다.")
+    void isGamePlayingOnTest() {
+        // given
+        ChessGame chessGame = new ChessGame(BoardInitializer.createBoard());
+        chessGameDao.createChessGame("hello", chessGame.getPieces(), WhiteTurn.getInstance());
+        // when
+        boolean actual = gameService.isGamePlayingOn("hello");
+        // then
+        assertThat(actual).isTrue();
     }
 }

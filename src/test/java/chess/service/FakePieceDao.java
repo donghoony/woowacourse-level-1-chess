@@ -8,20 +8,20 @@ import java.util.Map;
 
 public class FakePieceDao implements PieceDao {
 
-    private final Map<Position, Piece> pieces = new HashMap<>();
+    private final Map<String, Map<Position, Piece>> fakeDatabase = new HashMap<>();
 
     @Override
-    public void saveAllPieces(Map<Position, Piece> pieces) {
-        this.pieces.putAll(pieces);
+    public void saveAllPieces(String name, Map<Position, Piece> pieces) {
+        fakeDatabase.put(name, pieces);
     }
 
     @Override
-    public Map<Position, Piece> findPieces() {
-        return pieces;
+    public Map<Position, Piece> findPiecesByName(String name) {
+        return fakeDatabase.get(name);
     }
 
     @Override
-    public void removeAllPieces() {
-        pieces.clear();
+    public void removePiecesByName(String name) {
+        fakeDatabase.remove(name);
     }
 }

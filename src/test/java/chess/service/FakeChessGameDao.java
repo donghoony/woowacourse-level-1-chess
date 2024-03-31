@@ -1,51 +1,48 @@
 package chess.service;
 
 import chess.dao.ChessGameDao;
+import chess.dao.ChessGameDto;
 import chess.dao.PieceDao;
 import chess.domain.board.Board;
-import chess.domain.board.BoardInitializer;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
 import chess.game.ChessGame;
 import chess.game.state.GameState;
-import chess.game.state.TerminatedState;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class FakeChessGameDao implements ChessGameDao {
 
+    private final Map<String, GameState> fakeDatabase = new HashMap<>();
     private final PieceDao pieceDao = new FakePieceDao();
-    private GameState state = null;
 
     @Override
-    public ChessGame createChessGame() {
-        ChessGame chessGame = new ChessGame(BoardInitializer.createBoard());
-        pieceDao.saveAllPieces(chessGame.getPieces());
-        updateGame(chessGame);
-        return chessGame;
+    public ChessGameDto createChessGame(String name, Map<Position, Piece> pieces, GameState gameState) {
+        ChessGame chessGame = new ChessGame(new Board(pieces), gameState);
+        pieceDao.saveAllPieces(name, pieces);
+        ChessGameDto chessGameDto = new ChessGameDto(name, pieces, gameState);
+        updateGame(chessGameDto);
+        return chessGameDto;
     }
 
     @Override
-    public ChessGame findCurrentGame() {
-        if (state == null || state == TerminatedState.getInstance()) {
-            return createChessGame();
+    public Optional<ChessGameDto> findGameByName(String name) {
+        if (fakeDatabase.containsKey(name)) {
+            return Optional.of(new ChessGameDto(name, pieceDao.findPiecesByName(name), fakeDatabase.get(name)));
         }
-        Map<Position, Piece> pieces = pieceDao.findPieces();
-        return new ChessGame(new Board(pieces), state);
+        return Optional.empty();
     }
 
     @Override
-    public boolean hasPlayingGame() {
-        return state != null && state != TerminatedState.getInstance();
+    public void updateGame(ChessGameDto chessGameDto) {
+        fakeDatabase.put(chessGameDto.name(), chessGameDto.gameState());
+        pieceDao.saveAllPieces(chessGameDto.name(), chessGameDto.pieces());
     }
 
     @Override
-    public void updateGame(ChessGame chessGame) {
-        pieceDao.saveAllPieces(chessGame.getPieces());
-        state = chessGame.getGameState();
-    }
-
-    @Override
-    public void removeGame() {
-        state = null;
+    public void removeGame(String name) {
+        fakeDatabase.remove(name);
+        pieceDao.removePiecesByName(name);
     }
 }

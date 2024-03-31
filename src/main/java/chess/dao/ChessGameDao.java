@@ -1,16 +1,18 @@
 package chess.dao;
 
-import chess.game.ChessGame;
+import chess.domain.piece.Piece;
+import chess.domain.position.Position;
+import chess.game.state.GameState;
+import java.util.Map;
+import java.util.Optional;
 
 public interface ChessGameDao {
 
-    ChessGame createChessGame();
+    ChessGameDto createChessGame(String name, Map<Position, Piece> pieces, GameState gameState);
 
-    ChessGame findCurrentGame();
+    Optional<ChessGameDto> findGameByName(String name);
 
-    boolean hasPlayingGame();
+    void updateGame(ChessGameDto chessGameDto);
 
-    void updateGame(ChessGame chessGame);
-
-    void removeGame();
+    void removeGame(String name);
 }
