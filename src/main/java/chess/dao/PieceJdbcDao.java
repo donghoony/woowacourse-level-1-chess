@@ -1,57 +1,63 @@
 package chess.dao;
 
-import chess.database.DBConnector;
+import chess.database.JdbcTemplate;
+import chess.database.SingleQueryParameters;
 import chess.domain.piece.Piece;
 import chess.domain.position.File;
 import chess.domain.position.Position;
 import chess.domain.position.Rank;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class PieceJdbcDao implements PieceDao {
 
-    @Override
-    public void saveAllPieces(String name, Map<Position, Piece> pieces) {
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "INSERT INTO Piece (room_name, file, `rank`, type, color) VALUES (?, ?, ?, ?, ?)")) {
-            statement.setString(1, name);
-            for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
-                assignPieceToStatement(statement, entry);
-            }
-            removePiecesByName(name);
-            statement.executeBatch();
-        } catch (SQLException e) {
-            throw new IllegalStateException("말을 저장하는 데 실패했습니다.");
-        }
+    private final JdbcTemplate<PiecesDto> template;
+
+    public PieceJdbcDao() {
+        this.template = new JdbcTemplate<>(resultSet -> new PiecesDto(mapToPieces(resultSet)));
     }
 
-    private void assignPieceToStatement(PreparedStatement statement, Entry<Position, Piece> entry) throws SQLException {
+    @Override
+    public void saveAllPieces(String name, Map<Position, Piece> pieces) {
+        String query = "INSERT INTO Piece (room_name, file, `rank`, type, color) VALUES (?, ?, ?, ?, ?)";
+        List<SingleQueryParameters> singleQueryParameters = new ArrayList<>();
+        for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
+            singleQueryParameters.add(constructParameters(name, entry));
+        }
+        removePiecesByName(name);
+        template.executeBatch(query, singleQueryParameters);
+    }
+
+    private SingleQueryParameters constructParameters(String name, Entry<Position, Piece> entry) {
         Position position = entry.getKey();
         Piece piece = entry.getValue();
-        statement.setString(2, position.getFileName());
-        statement.setInt(3, position.getRankNumber());
-        statement.setString(4, PieceMapper.convertToPieceName(piece));
-        statement.setString(5, PieceMapper.convertColor(piece));
-        statement.addBatch();
+
+        return new SingleQueryParameters(
+                name,
+                position.getFileName(),
+                String.valueOf(position.getRankNumber()),
+                PieceMapper.convertToPieceName(piece),
+                PieceMapper.convertColor(piece)
+        );
     }
 
     @Override
     public Map<Position, Piece> findPiecesByName(String name) {
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "SELECT file, `rank`, type, color FROM Piece WHERE room_name = ?")) {
-            statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
-            return mapToPieces(resultSet);
-        } catch (SQLException e) {
-            throw new IllegalStateException("말을 조회하는 데 실패했습니다.");
-        }
+        String query = "SELECT file, `rank`, type, color FROM Piece WHERE room_name = ?";
+        return template.executeAndRetrieveResult(query, name)
+                .map(PiecesDto::pieces)
+                .orElseThrow(() -> new IllegalStateException("말을 조회하는 데 실패했습니다."));
+    }
+
+    @Override
+    public void removePiecesByName(String name) {
+        String query = "DELETE FROM Piece WHERE room_name = ?";
+        template.execute(query, name);
     }
 
     private Map<Position, Piece> mapToPieces(ResultSet resultSet) throws SQLException {
@@ -60,21 +66,12 @@ public class PieceJdbcDao implements PieceDao {
             File file = File.from(resultSet.getString("file"));
             Rank rank = Rank.from(resultSet.getInt("rank"));
             Position position = Position.of(file, rank);
-            Piece piece = PieceMapper.mapToPiece(resultSet.getString("color"), resultSet.getString("type"));
+            Piece piece = PieceMapper.mapToPiece(
+                    resultSet.getString("color"),
+                    resultSet.getString("type")
+            );
             pieces.put(position, piece);
         }
         return pieces;
-    }
-
-    @Override
-    public void removePiecesByName(String name) {
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "DELETE FROM Piece WHERE room_name = ?")) {
-            statement.setString(1, name);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("기물을 삭제하는 데 실패했습니다.");
-        }
     }
 }
