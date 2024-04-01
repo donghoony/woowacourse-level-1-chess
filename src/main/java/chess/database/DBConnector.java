@@ -23,7 +23,9 @@ public class DBConnector {
         String username = properties.getProperty("database.username");
         String password = properties.getProperty("database.password");
         try {
-            return DriverManager.getConnection(createDatabaseURL(), username, password);
+            Connection connection = DriverManager.getConnection(createDatabaseURL(), username, password);
+            connection.setAutoCommit(false);
+            return connection;
         } catch (final SQLException e) {
             throw new IllegalStateException("DB 연결 오류 : " + e.getMessage());
         }
